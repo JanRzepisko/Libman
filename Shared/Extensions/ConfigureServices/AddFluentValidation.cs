@@ -31,7 +31,6 @@ public static partial class AddFluentValidation
                 c.ImplicitlyValidateRootCollectionElements = true;
                 c.RegisterValidatorsFromAssemblies(validatorsAssemblies);
             });
-            
         return services;
     }
 }

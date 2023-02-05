@@ -15,6 +15,7 @@ public static partial class AddSharedServicesExtension
     public static IServiceCollection AddSharedServices<AssemblyEntryPoint, DataContext, UnitOfWork>(this IServiceCollection services, JwtLogin jwtLogin, string connectionString, string serviceName) 
         where DataContext : DbContext, UnitOfWork where UnitOfWork : class
     {
+
         services.AddEndpointsApiExplorer();
         services.AddMediatR(typeof(AssemblyEntryPoint).GetTypeInfo().Assembly);
         services.AddFluentValidators(typeof(AssemblyEntryPoint).Assembly);
@@ -38,9 +39,11 @@ public static partial class AddSharedServicesExtension
                 .AllowAnyHeader()
                 .AllowAnyMethod());
         });
+        
+        //Add Logging
+        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
 
         services.AddControllers();
-
         //services.AddScoped<IUserProvider, UserProvider>();
         //services.AddScoped<IFileManager, FileManager>();
         
