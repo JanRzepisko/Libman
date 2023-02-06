@@ -9,7 +9,6 @@
     <ItemGroup>
       <Folder Include="Actions\Query" />
       <Folder Include="Repository" />
-      <Folder Include="Services" />
     </ItemGroup>
 
     <ItemGroup>

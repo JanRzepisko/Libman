@@ -1,5 +1,7 @@
 using Identity.Application.DataAccess;
+using Identity.Application.Services;
 using Identity.Infrastructure.DataAccess;
+using Identity.Infrastructure.Services;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.HttpOverrides;
 using Shared.BaseModels.Jwt;
@@ -20,7 +22,6 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.Configure<string>(Configuration);
-
         var jwtLogin = new JwtLogin
         {
             Audience = Configuration["Jwt:Audience"],
@@ -29,8 +30,9 @@ public class Startup
         };
 
         services.AddSharedServices<Application.AssemblyEntryPoint, IdentityDataContext, IUnitOfWork>(jwtLogin, Configuration["ConnectionString"], Configuration["ServiceName"]);
-        Console.WriteLine("Token: " + Configuration["Jwt:Key"]);
-        Console.WriteLine("ConnectionString: " + Configuration["ConnectionString"]);
+        
+        //Configure your services here
+        services.AddScoped<IJwtGenerator, JwtGenerator>(c => new JwtGenerator(jwtLogin));
     }
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
