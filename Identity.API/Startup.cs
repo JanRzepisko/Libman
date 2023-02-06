@@ -2,11 +2,8 @@ using Identity.Application.DataAccess;
 using Identity.Application.Services;
 using Identity.Infrastructure.DataAccess;
 using Identity.Infrastructure.Services;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.HttpOverrides;
 using Shared.BaseModels.Jwt;
 using Shared.Extensions;
-using Shared.PublicMiddlewares;
 
 namespace Identity.API;
 
