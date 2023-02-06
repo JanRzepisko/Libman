@@ -1,5 +1,7 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace Shared.BaseModels.ApiControllerModels;
 
@@ -10,7 +12,7 @@ public class BaseApiController : Controller
     {
         _mediator = mediator;
     }
-
+    
     protected async Task<IActionResult> Endpoint(IRequest<Unit> request,  CancellationToken cancellationToken = default)
     {
         await _mediator.Send(request, cancellationToken);
