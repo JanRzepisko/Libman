@@ -1,6 +1,7 @@
 using FluentValidation;
 using Identity.Application.DataAccess;
 using MediatR;
+using Shared.BaseModels.Exceptions;
 
 namespace Identity.Application.Actions.Command.User;
 
@@ -19,9 +20,14 @@ public static class RegisterUser
 
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
+            if (await _unitOfWork.Users.IsEmailExist(request.Email, cancellationToken))
+            {
+                throw new EmailExist();
+            }
+            
             await _unitOfWork.Users.AddAsync(new Domain.Entities.User()
             {
-                Password = request.Password,
+                Password = BCrypt.Net.BCrypt.HashPassword(request.Password),
                 Email = request.Email,
                 Name = request.Name,
                 Surname = request.Surname
@@ -35,6 +41,8 @@ public static class RegisterUser
         {
             public Validator()
             {
+                RuleFor(x => x.Surname).NotEmpty();
+                RuleFor(x => x.Email).NotEmpty().EmailAddress();
                 RuleFor(c => c.Password).Equal(c => c.ConfirmPassword);
             }
         }

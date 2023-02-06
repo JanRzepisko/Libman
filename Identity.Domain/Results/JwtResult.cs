@@ -1,8 +1,10 @@
+using Shared.BaseModels.ApiControllerModels;
+
 namespace Identity.Domain.Results;
 
-public class JwtResult
+public class JwtResult : BaseResult
 {
-    private string Token { get; }
+    public string Token { get; }
 
     public JwtResult(string token)
     {

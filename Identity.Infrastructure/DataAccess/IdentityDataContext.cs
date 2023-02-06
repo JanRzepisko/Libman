@@ -1,5 +1,7 @@
 using Identity.Application.DataAccess;
+using Identity.Application.Repository;
 using Identity.Domain.Entities;
+using Identity.Infrasturcture.Repository;
 using Microsoft.EntityFrameworkCore;
 using Shared.BaseModels.BaseEntities;
 
@@ -9,7 +11,7 @@ public class IdentityDataContext: DbContext, IUnitOfWork
 {
     
     private DbSet<User> _Users { get; set; }
-    public IBaseRepository<User> Users => new BaseRepository<User>(_Users);
+    public IUserRepository Users => new UserRepository(_Users);
 
     
     public IdentityDataContext(DbContextOptions<IdentityDataContext> options) : base(options)
