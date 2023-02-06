@@ -1,10 +1,8 @@
 using Identity.Application.Actions.Command.User;
 using Identity.Application.Actions.Query.User;
-using Identity.Domain.Results;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Shared.BaseModels.ApiControllerModels;
 
 namespace Identity.API.Controller;
