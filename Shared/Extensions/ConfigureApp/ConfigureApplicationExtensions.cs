@@ -30,7 +30,7 @@ public static partial class ConfigureApplicationExtensions
         app.UseAuthentication();
         app.UseAuthorization();
 
-        //app.UseMiddleware<SetUserMiddleware>();
+        app.UseMiddleware<UserProviderMiddleware>();
 
         app.UseEndpoints(endpoints =>
         {

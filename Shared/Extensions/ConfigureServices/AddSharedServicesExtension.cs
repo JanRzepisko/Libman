@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Shared.BaseModels.Jwt;
 using Shared.Behaviours;
+using Shared.Service.Implementations;
+using Shared.Service.Interfaces;
 
 namespace Shared.Extensions;
 
@@ -44,7 +46,9 @@ public static partial class AddSharedServicesExtension
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
 
         services.AddControllers();
-        //services.AddScoped<IUserProvider, UserProvider>();
+        
+        //Add Services
+        services.AddScoped<IUserProvider, UserProvider>();
         //services.AddScoped<IFileManager, FileManager>();
         
         return services;

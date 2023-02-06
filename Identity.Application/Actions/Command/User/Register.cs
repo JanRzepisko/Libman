@@ -1,9 +1,6 @@
-using System.Data;
 using FluentValidation;
 using Identity.Application.DataAccess;
 using MediatR;
-using Microsoft.Extensions.Configuration;
-using Shared.BaseModels.Exceptions;
 
 namespace Identity.Application.Actions.Command.User;
 
@@ -15,7 +12,7 @@ public static class RegisterUser
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public Handler(IUnitOfWork unitOfWork, IConfiguration configuration)
+        public Handler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
