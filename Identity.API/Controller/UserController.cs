@@ -1,24 +1,28 @@
 using Identity.Application.Actions.Command.User;
+using Identity.Application.Actions.Query.User;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.BaseModels.ApiControllerModels;
 
 namespace Identity.API.Controller;
 
+[ApiController]
 [Route("User")]
-public class UserController :BaseApiController
+public class UserController : BaseApiController
 {
-    private readonly IMediator _mediator;
 
-    public UserController(IMediator mediator) : base(mediator)
-    {
-        _mediator = mediator;
-    }
+    [AllowAnonymous]
+    [HttpPost("Register")]
+    public Task<IActionResult> Endpoint(RegisterUser.Command request) => base.Endpoint(request);
+
+    [AllowAnonymous]
+    [HttpPost("Login")]
+    public Task<IActionResult> Endpoint(LoginUser.Command request) => base.Endpoint(request);
     
-    [HttpPost("register")]
-    public async Task<IActionResult> Register(RegisterUser.Command command, CancellationToken cancellationToken = default)
-    {
-        await _mediator.Send(command, cancellationToken);
-        return Ok(ApiResponse.Success(200));
-    }
+    [Authorize]
+    [HttpPut]
+    public Task<IActionResult> Endpoint(UpdateUser.Command request) => base.Endpoint(request);
+
+    public UserController(IMediator mediator) : base(mediator) { }
 }

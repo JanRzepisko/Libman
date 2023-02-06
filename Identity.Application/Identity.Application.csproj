@@ -7,11 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Actions\Query" />
-      <Folder Include="Repository" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\Identity.Domain\Identity.Domain.csproj" />
       <ProjectReference Include="..\Shared\Shared.csproj" />
     </ItemGroup>

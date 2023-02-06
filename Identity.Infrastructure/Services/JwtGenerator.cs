@@ -19,7 +19,7 @@ public class JwtGenerator : IJwtGenerator
         _jwtLogin = jwtLogin;
     }
 
-    public Task<JwtResult> GenerateJwt(User user)
+    public Task<JwtResult> GenerateJwt(User user, CancellationToken cancellationToken)
     {
         byte[] key = Encoding.ASCII.GetBytes(_jwtLogin.Key);
 

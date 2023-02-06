@@ -19,23 +19,13 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.Configure<string>(Configuration);
-        var jwtLogin = new JwtLogin
-        {
-            Audience = Configuration["Jwt:Audience"],
-            Issuer = Configuration["Jwt:Issuer"],
-            Key = Configuration["Jwt:Key"],
-        };
+        services.AddSharedServices<Application.AssemblyEntryPoint, IdentityDataContext, IUnitOfWork>(JwtLogin.FromConfiguration(Configuration), Configuration["ConnectionString"], Configuration["ServiceName"]);
+        
+        //Add application services here.
+        services.AddScoped<IJwtGenerator, JwtGenerator>(c => new JwtGenerator(JwtLogin.FromConfiguration(Configuration)));
+    }
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env) => app.ConfigureApplication();
+    
+    
 
-        services.AddSharedServices<Application.AssemblyEntryPoint, IdentityDataContext, IUnitOfWork>(jwtLogin, Configuration["ConnectionString"], Configuration["ServiceName"]);
-        
-        //Configure your services here
-        services.AddScoped<IJwtGenerator, JwtGenerator>(c => new JwtGenerator(jwtLogin));
-    }
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-    {
-        app.ConfigureApplication();
-        
-        //Use custom middleware for microservice
-        //app.UseMiddleware<SetUserMiddleware>();
-    }
 }
