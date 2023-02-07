@@ -3,7 +3,7 @@ using Shared.BaseModels.BaseEntities;
 
 namespace Identity.Domain.Entities;
 
-public class User : UserModel
+public class Admin : UserModel
 {
    
 }

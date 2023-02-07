@@ -12,11 +12,19 @@ services:
       - '5672:5672'
       # HTTP management UI
       - '15672:15672'
-  #identity.api:
-  #  image: ${DOCKER_REGISTRY-}identityapi
-  #  ports:
-  #    - 5001:5001
-  #    - 80:80
-  #  build:
-  #    context: .
-  #    dockerfile: Identity.API/Dockerfile
+  identity.api:
+    image: ${DOCKER_REGISTRY-}identityapi
+    container_name: Libman.Identity
+    ports:
+      - 5001:5001
+    build:
+      context: .
+      dockerfile: Identity.API/Dockerfile  
+  Library.api:
+    image: ${DOCKER_REGISTRY-}libraryapi
+    container_name: Libman.Library
+    ports:
+      - 5002:5002
+    build:
+      context: .
+      dockerfile: Library.API/Dockerfile

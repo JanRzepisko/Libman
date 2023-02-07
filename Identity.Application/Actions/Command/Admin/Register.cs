@@ -7,7 +7,7 @@ namespace Identity.Application.Actions.Command.Admin;
 
 public static class RegisterAdmin
 {
-    public sealed record Command(string Name, string Surname, string Email, string Password, string ConfirmPassword) : IRequest<Unit>;
+    public sealed record Command(string Firstname, string Surname, string Email, string Password, string ConfirmPassword) : IRequest<Unit>;
 
     public class Handler : IRequestHandler<Command, Unit>
     {
@@ -25,11 +25,11 @@ public static class RegisterAdmin
                 throw new EmailExist();
             }
             
-            await _unitOfWork.Admins.AddAsync(new Domain.Entities.User()
+            await _unitOfWork.Admins.AddAsync(new Domain.Entities.Admin()
             {
                 Password = BCrypt.Net.BCrypt.HashPassword(request.Password),
                 Email = request.Email,
-                Name = request.Name,
+                Firstname = request.Firstname,
                 Surname = request.Surname
             }, cancellationToken);
             
@@ -42,7 +42,7 @@ public static class RegisterAdmin
             public Validator()
             {
                 RuleFor(x => x.Surname).NotEmpty();
-                RuleFor(x => x.Name).NotEmpty();
+                RuleFor(x => x.Firstname).NotEmpty();
                 RuleFor(x => x.Email).NotEmpty().EmailAddress();
                 RuleFor(c => c.Password).Equal(c => c.ConfirmPassword);
             }

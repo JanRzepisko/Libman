@@ -7,7 +7,7 @@ namespace Identity.Application.Actions.Command.User;
 
 public static class RegisterUser
 {
-    public sealed record Command(string Name, string Surname, string Email, string Password, string ConfirmPassword) : IRequest<Unit>;
+    public sealed record Command(string Firstname, string Surname, string Email, string Password, string ConfirmPassword) : IRequest<Unit>;
 
     public class Handler : IRequestHandler<Command, Unit>
     {
@@ -29,7 +29,7 @@ public static class RegisterUser
             {
                 Password = BCrypt.Net.BCrypt.HashPassword(request.Password),
                 Email = request.Email,
-                Name = request.Name,
+                Firstname = request.Firstname,
                 Surname = request.Surname
             }, cancellationToken);
             

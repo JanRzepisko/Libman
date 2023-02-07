@@ -1,15 +1,15 @@
+using System.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 using Shared.PublicMiddlewares;
 
 namespace Shared.Extensions;
 
 public static partial class ConfigureApplicationExtensions
 {
-    public static IApplicationBuilder ConfigureApplication(this IApplicationBuilder app)
+    public static IApplicationBuilder ConfigureApplication(this IApplicationBuilder app, IConfiguration cfg)
     {
         app.UseMiddleware<ExceptionMiddleware>();
 
@@ -38,7 +38,7 @@ public static partial class ConfigureApplicationExtensions
             endpoints.MapSwagger();
             endpoints.MapGet("/" , async context =>
             {
-                await context.Response.WriteAsync("Hello World!");
+                await context.Response.WriteAsync($"Hello World! I am a service {cfg["ServiceName"]}");
             });
         });
         return app;

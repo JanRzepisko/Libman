@@ -1,13 +1,14 @@
 using Identity.Application.Repository;
 using Identity.Domain.Entities;
+using Identity.Domain.Entities.Abstract;
 using Microsoft.EntityFrameworkCore;
 using Shared.BaseModels.BaseEntities;
 
 namespace Identity.Infrasturcture.Repository;
 
-public class UserRepository : BaseRepository<User>, IUserRepository
+public class UserRepository<TEntity> : BaseRepository<TEntity>, IUserRepository<TEntity> where TEntity : UserModel, new()
 {
-    public UserRepository(DbSet<User>? entities) : base(entities)
+    public UserRepository(DbSet<TEntity>? entities) : base(entities)
     {
     }
 
@@ -17,7 +18,7 @@ public class UserRepository : BaseRepository<User>, IUserRepository
         return _entities.AnyAsync(c => c.Email == email, cancellationToken);
     }
 
-    public Task<User> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
+    public Task<TEntity?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
     {
         return _entities.FirstOrDefaultAsync(c => c.Email == email, cancellationToken);
     }

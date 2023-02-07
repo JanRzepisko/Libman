@@ -8,7 +8,7 @@ namespace Identity.Application.Actions.Command.Admin;
 
 public static class UpdateAdmin
 {
-    public sealed record Command(string? Name, string? Surname, string? Email) : IRequest<Unit>;
+    public sealed record Command(string? Firstname, string? Surname, string? Email) : IRequest<Unit>;
 
     public class Handler : IRequestHandler<Command, Unit>
     {
@@ -30,7 +30,7 @@ public static class UpdateAdmin
             }
 
             user.Email = request.Email ?? user.Email;
-            user.Name = request.Name ?? user.Name;
+            user.Firstname = request.Firstname ?? user.Firstname;
             user.Surname = request.Surname ?? user.Surname;
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);

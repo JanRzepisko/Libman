@@ -1,14 +1,11 @@
-using Identity.Application.DataAccess;
-using Identity.Application.EventConsumer;
-using Identity.Application.Services;
-using Identity.Infrastructure.DataAccess;
-using Identity.Infrastructure.Services;
+using Library.Application.DataAccess;
+using Library.Infrastructure.DataAccess;
 using MassTransit;
 using Shared.BaseModels.Jwt;
 using Shared.EventBus;
 using Shared.Extensions;
 
-namespace Identity.API;
+namespace Library.API;
 
 public class Startup
 {
@@ -26,7 +23,7 @@ public class Startup
 
         //Configure Service
         services.Configure<string>(Configuration);
-        services.AddSharedServices<Application.AssemblyEntryPoint, IdentityDataContext, IUnitOfWork>(
+        services.AddSharedServices<Application.AssemblyEntryPoint, LibraryDataContext, IUnitOfWork>(
             JwtLogin.FromConfiguration(Configuration),
             RabbitMQLogin.FromConfiguration(Configuration),
             connectionString,serviceName);
@@ -50,7 +47,6 @@ public class Startup
             });
         });
 
-        services.AddScoped<IJwtGenerator, JwtGenerator>(c => new JwtGenerator(JwtLogin.FromConfiguration(Configuration)));
         
     }
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

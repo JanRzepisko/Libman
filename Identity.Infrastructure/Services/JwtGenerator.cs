@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Identity.Application.Services;
 using Identity.Domain.Entities;
+using Identity.Domain.Entities.Abstract;
 using Identity.Domain.Results;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -19,7 +20,7 @@ public class JwtGenerator : IJwtGenerator
         _jwtLogin = jwtLogin;
     }
 
-    public Task<JwtResult> GenerateJwt(User user, CancellationToken cancellationToken)
+    public Task<JwtResult> GenerateJwt(UserModel user, CancellationToken cancellationToken)
     {
         byte[] key = Encoding.ASCII.GetBytes(_jwtLogin.Key);
 
@@ -30,7 +31,7 @@ public class JwtGenerator : IJwtGenerator
             Subject = new ClaimsIdentity(new[]
             {
                 new Claim("Id", user.Id.ToString()),
-                new Claim("Name", user.Name!),
+                new Claim("Name", user.Firstname!),
                 new Claim("Surname", user.Surname!),
                 new Claim("Email", user.Email!),
                 new Claim("Role", "User")
@@ -45,5 +46,10 @@ public class JwtGenerator : IJwtGenerator
         JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
         SecurityToken? token = tokenHandler.CreateToken(tokenDescriptor);
         return Task.FromResult(new JwtResult(tokenHandler.WriteToken(token)));
+    }
+
+    public Task<JwtResult> GenerateJwt(User user, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
     }
 }
