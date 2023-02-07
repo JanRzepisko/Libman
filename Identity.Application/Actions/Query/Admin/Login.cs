@@ -5,9 +5,9 @@ using Identity.Domain.Results;
 using MediatR;
 using Shared.BaseModels.Exceptions;
 
-namespace Identity.Application.Actions.Query.User;
+namespace Identity.Application.Actions.Query.Admin;
 
-public static class LoginUser
+public static class LoginAdmin
 {
     public sealed record Command(string Email, string Password) : IRequest<JwtResult>;
 
@@ -29,6 +29,12 @@ public static class LoginUser
             {
                 throw new EntityNotFound<Domain.Entities.User>();
             }
+
+            if (!BCrypt.Net.BCrypt.Verify(request.Password, user.Password))
+            {
+                throw new BadPassword();
+            }
+            
             return await _jwt.GenerateJwt(user, cancellationToken);
         }
 

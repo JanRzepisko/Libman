@@ -6,9 +6,9 @@ using Shared.Service.Interfaces;
 
 namespace Identity.Application.Actions.Command.User;
 
-public static class UpdateUser
+public static class RemoveUser
 {
-    public sealed record Command(string? Name, string? Surname, string? Email) : IRequest<Unit>;
+    public sealed record Command() : IRequest<Unit>;
 
     public class Handler : IRequestHandler<Command, Unit>
     {
@@ -23,16 +23,13 @@ public static class UpdateUser
 
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
-            var user = await _unitOfWork.Admins.GetByIdAsync(_userProvider.Id, cancellationToken);
+            var user = await _unitOfWork.Users.GetByIdAsync(_userProvider.Id, cancellationToken);
             if (user is null)
             {
                 throw new EntityNotFound<Domain.Entities.User>();
             }
-
-            user.Email = request.Email ?? user.Email;
-            user.Name = request.Name ?? user.Name;
-            user.Surname = request.Surname ?? user.Surname;
-
+            
+            _unitOfWork.Users.Remove(user);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }

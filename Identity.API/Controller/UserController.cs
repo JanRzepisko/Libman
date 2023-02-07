@@ -11,18 +11,20 @@ namespace Identity.API.Controller;
 [Route("User")]
 public class UserController : BaseApiController
 {
+    public UserController(IMediator mediator) : base(mediator) { }
 
-    [AllowAnonymous]
     [HttpPost("Register")]
-    public Task<IActionResult> Endpoint(RegisterUser.Command request) => base.Endpoint(request);
-
-    [AllowAnonymous]
+    public Task<IActionResult> Endpoint(RegisterUser.Command request) => base.Endpoint(request);    
+    
     [HttpPost("Login")]
     public Task<IActionResult> Endpoint(LoginUser.Command request) => base.Endpoint(request);
     
     [Authorize]
     [HttpPut]
     public Task<IActionResult> Endpoint(UpdateUser.Command request) => base.Endpoint(request);
+    
+    [Authorize]
+    [HttpDelete]
+    public Task<IActionResult> Endpoint(RemoveUser.Command request) => base.Endpoint(request);
 
-    public UserController(IMediator mediator) : base(mediator) { }
 }

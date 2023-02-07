@@ -4,11 +4,11 @@ using MediatR;
 using Shared.BaseModels.Exceptions;
 using Shared.Service.Interfaces;
 
-namespace Identity.Application.Actions.Command.User;
+namespace Identity.Application.Actions.Command.Admin;
 
-public static class UpdateUser
+public static class RemoveAdmin
 {
-    public sealed record Command(string? Name, string? Surname, string? Email) : IRequest<Unit>;
+    public sealed record Command() : IRequest<Unit>;
 
     public class Handler : IRequestHandler<Command, Unit>
     {
@@ -28,11 +28,8 @@ public static class UpdateUser
             {
                 throw new EntityNotFound<Domain.Entities.User>();
             }
-
-            user.Email = request.Email ?? user.Email;
-            user.Name = request.Name ?? user.Name;
-            user.Surname = request.Surname ?? user.Surname;
-
+            
+            _unitOfWork.Admins.Remove(user);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }

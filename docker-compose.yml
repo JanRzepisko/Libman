@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  rabbitmq3:
+    container_name: "rabbitmq"
+    image: rabbitmq:3.8-management-alpine
+    environment:
+      - RABBITMQ_DEFAULT_USER=libman
+      - RABBITMQ_DEFAULT_PASS=!Malinka@pass
+    ports:
+      # AMQP protocol port
+      - '5672:5672'
+      # HTTP management UI
+      - '15672:15672'
+  #identity.api:
+  #  image: ${DOCKER_REGISTRY-}identityapi
+  #  ports:
+  #    - 5001:5001
+  #    - 80:80
+  #  build:
+  #    context: .
+  #    dockerfile: Identity.API/Dockerfile

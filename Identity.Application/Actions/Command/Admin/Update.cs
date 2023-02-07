@@ -4,9 +4,9 @@ using MediatR;
 using Shared.BaseModels.Exceptions;
 using Shared.Service.Interfaces;
 
-namespace Identity.Application.Actions.Command.User;
+namespace Identity.Application.Actions.Command.Admin;
 
-public static class UpdateUser
+public static class UpdateAdmin
 {
     public sealed record Command(string? Name, string? Surname, string? Email) : IRequest<Unit>;
 
@@ -23,7 +23,7 @@ public static class UpdateUser
 
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
-            var user = await _unitOfWork.Admins.GetByIdAsync(_userProvider.Id, cancellationToken);
+            var user = await _unitOfWork.Users.GetByIdAsync(_userProvider.Id, cancellationToken);
             if (user is null)
             {
                 throw new EntityNotFound<Domain.Entities.User>();
@@ -41,8 +41,7 @@ public static class UpdateUser
         {
             public Validator()
             {
-  
-                
+
             }
         }
     }
