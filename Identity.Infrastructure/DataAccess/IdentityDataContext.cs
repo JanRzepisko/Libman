@@ -11,7 +11,9 @@ public class IdentityDataContext: DbContext, IUnitOfWork
 {
     
     private DbSet<User> _Users { get; set; }
+    private DbSet<User> _Admin { get; set; }
     public IUserRepository Users => new UserRepository(_Users);
+    public IUserRepository Admins => new UserRepository(_Admin);
 
     
     public IdentityDataContext(DbContextOptions<IdentityDataContext> options) : base(options)
