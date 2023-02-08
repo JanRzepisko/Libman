@@ -36,7 +36,7 @@ public class Startup
             
             c.UsingRabbitMq((ctx, cfg) =>
             {
-                cfg.Host("localhost", h =>
+                cfg.Host("host.docker.internal", h =>
                 {
                     h.Username("libman");
                     h.Password("!Malinka@pass");

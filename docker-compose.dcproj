@@ -3,7 +3,7 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <ProjectGuid>315d554b-5286-42d2-b4d8-d8bc932062cb</ProjectGuid>
+    <ProjectGuid>8ab10ae2-da01-415b-b9f6-3885d66c6e39</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}</DockerServiceUrl>
     <DockerServiceName>identity.api</DockerServiceName>
