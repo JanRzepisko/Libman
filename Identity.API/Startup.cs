@@ -39,7 +39,7 @@ public class Startup
             
             c.UsingRabbitMq((ctx, cfg) =>
             {
-                cfg.Host("localhost", h =>
+                cfg.Host("host.docker.internal", h =>
                 {
                     h.Username("libman");
                     h.Password("!Malinka@pass");
@@ -49,9 +49,7 @@ public class Startup
                 cfg.CreateQueue<ExampleConsumer>(serviceName, ctx);
             });
         });
-
         services.AddScoped<IJwtGenerator, JwtGenerator>(c => new JwtGenerator(JwtLogin.FromConfiguration(Configuration)));
-        
     }
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {

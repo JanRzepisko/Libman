@@ -1,30 +1,33 @@
 version: '3.4'
 
 services:
-  rabbitmq3:
-    container_name: "rabbitmq"
-    image: rabbitmq:3.8-management-alpine
-    environment:
-      - RABBITMQ_DEFAULT_USER=libman
-      - RABBITMQ_DEFAULT_PASS=!Malinka@pass
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: 'RabbitMQ'
     ports:
-      # AMQP protocol port
-      - '5672:5672'
-      # HTTP management UI
-      - '15672:15672'
+      - 5672:5672
+      - 15672:15672
+    environment:
+      - "RABBITMQ_DEFAULT_PASS=!Malinka@pass"
+      - "RABBITMQ_DEFAULT_USER=libman"
+    volumes:
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
   identity.api:
     image: ${DOCKER_REGISTRY-}identityapi
-    container_name: Libman.Identity
+    container_name: 'Identity.api'
     ports:
-      - 5001:5001
+      - 5001:80
     build:
       context: .
-      dockerfile: Identity.API/Dockerfile  
-  Library.api:
+      dockerfile: Identity.API/Dockerfile
+
+  library.api:
     image: ${DOCKER_REGISTRY-}libraryapi
-    container_name: Libman.Library
+    container_name: 'Library.api'
     ports:
-      - 5002:5002
+      - 5002:80
     build:
       context: .
       dockerfile: Library.API/Dockerfile
+
