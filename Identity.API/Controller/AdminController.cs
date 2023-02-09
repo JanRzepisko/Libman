@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.BaseModels.ApiControllerModels;
+using Shared.BaseModels.Jwt;
 
 namespace Identity.API.Controller;
 

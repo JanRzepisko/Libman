@@ -8,7 +8,7 @@ namespace Identity.Application.Actions.Command.Admin;
 
 public static class UpdateAdmin
 {
-    public sealed record Command(string? Firstname, string? Surname, string? Email) : IRequest<Unit>;
+    public sealed record Command(Guid LibraryId) : IRequest<Unit>;
 
     public class Handler : IRequestHandler<Command, Unit>
     {
@@ -23,16 +23,13 @@ public static class UpdateAdmin
 
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
-            var user = await _unitOfWork.Users.GetByIdAsync(_userProvider.Id, cancellationToken);
+            var user = await _unitOfWork.Admins.GetByIdAsync(_userProvider.Id, cancellationToken);
             if (user is null)
             {
-                throw new EntityNotFound<Domain.Entities.User>();
+                throw new EntityNotFound<Domain.Entities.Admin>();
             }
 
-            user.Email = request.Email ?? user.Email;
-            user.Firstname = request.Firstname ?? user.Firstname;
-            user.Surname = request.Surname ?? user.Surname;
-
+            user.LibraryId = request.LibraryId;
             await _unitOfWork.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }

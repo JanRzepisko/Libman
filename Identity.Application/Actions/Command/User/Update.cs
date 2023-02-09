@@ -23,7 +23,7 @@ public static class UpdateUser
 
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
-            var user = await _unitOfWork.Admins.GetByIdAsync(_userProvider.Id, cancellationToken);
+            var user = await _unitOfWork.Users.GetByIdAsync(_userProvider.Id, cancellationToken);
             if (user is null)
             {
                 throw new EntityNotFound<Domain.Entities.User>();

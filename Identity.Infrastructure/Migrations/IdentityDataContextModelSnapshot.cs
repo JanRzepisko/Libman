@@ -19,7 +19,7 @@ namespace Identity.Infrasturcture.Migrations
                 .HasAnnotation("ProductVersion", "7.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("Identity.Domain.Entities.User", b =>
+            modelBuilder.Entity("Identity.Domain.Entities.Admin", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -29,9 +29,12 @@ namespace Identity.Infrasturcture.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Firstname")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<Guid>("LibraryId")
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -43,7 +46,37 @@ namespace Identity.Infrasturcture.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("_Admin");
+                });
+
+            modelBuilder.Entity("Identity.Domain.Entities.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Firstname")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<Guid>("LibraryId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Surname")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("_User");
                 });
 #pragma warning restore 612, 618
         }

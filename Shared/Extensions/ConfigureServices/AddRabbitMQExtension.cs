@@ -1,4 +1,5 @@
 using MassTransit;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Shared.Extensions;
 
@@ -10,5 +11,10 @@ public static partial class RabbitMQExtension
         {
             e.ConfigureConsumer<T>(ctx);
         });
+    }
+    
+    public static void Subscribe<T>(this IBusRegistrationConfigurator bus) where T : class, IConsumer
+    {
+        bus.AddConsumer<T>();
     }
 }

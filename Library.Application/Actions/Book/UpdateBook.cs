@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Library.Application.Actions.Book;
 
-public static class AddBook
+public static class UpdateBook
 {
     public sealed record Command() : IRequest<Unit>;
 

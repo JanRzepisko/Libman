@@ -2,7 +2,7 @@ using Shared.BaseModels.BaseEntities;
 
 namespace Library.Domain.Entities;
 
-public class Rental : Entity
+public class RentalHistory : Entity
 {
     public Guid BookId { get; set; }
     public Book Book { get; set; }
@@ -10,6 +10,6 @@ public class Rental : Entity
     public User User { get; set; }
     public Guid LibraryId { get; set; }
     public Library Library { get; set; }
-    public DateOnly RentalDate { get; set; }
-    public DateOnly ReturnDate { get; set; }
+    public DateTime RentalDate { get; set; }
+    public DateTime ReturnDate { get; set; }
 }

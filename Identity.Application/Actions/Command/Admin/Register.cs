@@ -2,6 +2,8 @@ using FluentValidation;
 using Identity.Application.DataAccess;
 using MediatR;
 using Shared.BaseModels.Exceptions;
+using Shared.EventBus;
+using Shared.Messages;
 
 namespace Identity.Application.Actions.Command.Admin;
 
@@ -12,10 +14,12 @@ public static class RegisterAdmin
     public class Handler : IRequestHandler<Command, Unit>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IEventBus _eventBus;
 
-        public Handler(IUnitOfWork unitOfWork)
+        public Handler(IUnitOfWork unitOfWork, IEventBus eventBus)
         {
             _unitOfWork = unitOfWork;
+            _eventBus = eventBus;
         }
 
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
@@ -24,16 +28,24 @@ public static class RegisterAdmin
             {
                 throw new EmailExist();
             }
-            
+            Guid id = Guid.NewGuid();
             await _unitOfWork.Admins.AddAsync(new Domain.Entities.Admin()
             {
                 Password = BCrypt.Net.BCrypt.HashPassword(request.Password),
                 Email = request.Email,
                 Firstname = request.Firstname,
-                Surname = request.Surname
+                Surname = request.Surname,
+                Id = id
             }, cancellationToken);
             
             await _unitOfWork.SaveChangesAsync(cancellationToken);
+            
+            await _eventBus.PublishAsync(new AdminCreatedEvent()
+            {
+                LibraryId = null,
+                Id = id, 
+                Name = request.Firstname + " " + request.Surname
+            }, cancellationToken);
             return Unit.Value;
         }
 

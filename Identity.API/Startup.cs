@@ -7,6 +7,7 @@ using MassTransit;
 using Shared.BaseModels.Jwt;
 using Shared.EventBus;
 using Shared.Extensions;
+using Shared.Messages;
 
 namespace Identity.API;
 
@@ -36,6 +37,7 @@ public class Startup
         {
             //Add All Consumers
             c.AddConsumer<ExampleConsumer>();
+            c.AddConsumer<AdminSetLibraryConsumer>();
             
             c.UsingRabbitMq((ctx, cfg) =>
             {
@@ -46,7 +48,7 @@ public class Startup
                 });
                 
                 //Add All Consumers
-                cfg.CreateQueue<ExampleConsumer>(serviceName, ctx);
+                cfg.ConfigureEndpoints(ctx);
             });
         });
         services.AddScoped<IJwtGenerator, JwtGenerator>(c => new JwtGenerator(JwtLogin.FromConfiguration(Configuration)));

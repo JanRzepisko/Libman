@@ -4,6 +4,7 @@ using Identity.Application.Services;
 using Identity.Domain.Results;
 using MediatR;
 using Shared.BaseModels.Exceptions;
+using Shared.BaseModels.Jwt;
 
 namespace Identity.Application.Actions.Query.Admin;
 
@@ -24,7 +25,7 @@ public static class LoginAdmin
 
         public async Task<JwtResult> Handle(Command request, CancellationToken cancellationToken)
         {
-            var user = await _unitOfWork.Users.GetByEmailAsync(request.Email, cancellationToken);
+            var user = await _unitOfWork.Admins.GetByEmailAsync(request.Email, cancellationToken);
             if (user is null)
             {
                 throw new EntityNotFound<Domain.Entities.User>();
@@ -35,7 +36,7 @@ public static class LoginAdmin
                 throw new BadPassword();
             }
             
-            return await _jwt.GenerateJwt(user, cancellationToken);
+            return await _jwt.GenerateJwt(user, JwtPolicies.Admin, cancellationToken);
         }
 
         public sealed class Validator : AbstractValidator<Command>

@@ -6,5 +6,5 @@ namespace Identity.Application.Services;
 
 public interface IJwtGenerator
 {
-    public Task<JwtResult> GenerateJwt(UserModel user, CancellationToken cancellationToken);
+    public Task<JwtResult> GenerateJwt(UserModel user, string role, CancellationToken cancellationToken);
 }

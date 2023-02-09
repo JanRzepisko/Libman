@@ -6,8 +6,8 @@ namespace Shared.BaseModels.Jwt;
 
 public static class JwtPolicies
 {
-    public static readonly string Admin = JwtRoles.Admin.GetDisplayName();
-    public static readonly string User = JwtRoles.User.GetDisplayName();
+    public const string Admin = "Admin";
+    public const string User = "User";
 
     public static AuthorizationPolicy AdminPolicy()
     {

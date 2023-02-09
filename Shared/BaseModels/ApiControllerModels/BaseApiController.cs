@@ -18,7 +18,7 @@ public class BaseApiController : Controller
         await _mediator.Send(request, cancellationToken);
         return Ok(ApiResponse.Success(200));
     }    
-    protected async Task<IActionResult> Endpoint<T>(IRequest<T> request,  CancellationToken cancellationToken = default) where T : BaseResult
+    protected async Task<IActionResult> Endpoint<T>(IRequest<T> request,  CancellationToken cancellationToken = default)
     {
         var result = await _mediator.Send(request, cancellationToken);
         return Ok(ApiResponse.Success(200, result));

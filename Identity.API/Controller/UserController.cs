@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.BaseModels.ApiControllerModels;
+using Shared.BaseModels.Jwt;
 
 namespace Identity.API.Controller;
 
@@ -13,6 +14,7 @@ public class UserController : BaseApiController
 {
     public UserController(IMediator mediator) : base(mediator) { }
 
+    [Authorize(JwtPolicies.Admin)]
     [HttpPost("Register")]
     public Task<IActionResult> Endpoint(RegisterUser.Command request) => base.Endpoint(request);    
     

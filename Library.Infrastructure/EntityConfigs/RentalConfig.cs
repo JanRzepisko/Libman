@@ -1,28 +1,25 @@
+using Library.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Library.Infrastructure.EntityConfigs;
 
-internal sealed class UserConfig : IEntityTypeConfiguration<Domain.Entities.User>
+internal sealed class RentalConfig : IEntityTypeConfiguration<Domain.Entities.Rental>
 {
-    public void Configure(EntityTypeBuilder<Domain.Entities.User> builder)
+    public void Configure(EntityTypeBuilder<Domain.Entities.Rental> builder)
     {
         builder.HasKey(c => c.Id);
         builder.HasIndex(c => c.Id);
         builder.Property(c => c.Id).ValueGeneratedOnAdd();
 
-        builder.HasMany(c => c.ActiveRelants)
-            .WithOne(c => c.User)
+        builder.HasOne(c => c.User)
+            .WithMany(c => c.ActiveRelant)
             .HasForeignKey(c => c.UserId)
             .OnDelete(DeleteBehavior.Cascade);
-
-        builder.HasMany(c => c.RelantsHistory)
-            .WithOne(c => c.User)
-            .HasForeignKey(c => c.UserId)
-            .OnDelete(DeleteBehavior.Cascade);
+        
         builder.HasOne(c => c.Library)
-            .WithMany(c => c.Users)
+            .WithMany(c => c.Rentals)
             .HasForeignKey(c => c.LibraryId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Cascade); 
     }
 }

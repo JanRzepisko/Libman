@@ -20,12 +20,11 @@ public class JwtGenerator : IJwtGenerator
         _jwtLogin = jwtLogin;
     }
 
-    public Task<JwtResult> GenerateJwt(UserModel user, CancellationToken cancellationToken)
+    public Task<JwtResult> GenerateJwt(UserModel user, string role, CancellationToken cancellationToken)
     {
         byte[] key = Encoding.ASCII.GetBytes(_jwtLogin.Key);
 
         //tu add claims
-        //TODO GET CONFIGURATION FORM APPSETTINGS    
         SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new[]
@@ -34,7 +33,7 @@ public class JwtGenerator : IJwtGenerator
                 new Claim("Name", user.Firstname!),
                 new Claim("Surname", user.Surname!),
                 new Claim("Email", user.Email!),
-                new Claim("Role", "User")
+                new Claim(ClaimTypes.Role, role)
             }),
             Expires = DateTime.UtcNow.AddMinutes(30),
             Audience = _jwtLogin.Audience,
@@ -47,9 +46,5 @@ public class JwtGenerator : IJwtGenerator
         SecurityToken? token = tokenHandler.CreateToken(tokenDescriptor);
         return Task.FromResult(new JwtResult(tokenHandler.WriteToken(token)));
     }
-
-    public Task<JwtResult> GenerateJwt(User user, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
+    
 }

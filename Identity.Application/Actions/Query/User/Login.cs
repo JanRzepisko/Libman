@@ -4,6 +4,7 @@ using Identity.Application.Services;
 using Identity.Domain.Results;
 using MediatR;
 using Shared.BaseModels.Exceptions;
+using Shared.BaseModels.Jwt;
 
 namespace Identity.Application.Actions.Query.User;
 
@@ -29,7 +30,7 @@ public static class LoginUser
             {
                 throw new EntityNotFound<Domain.Entities.User>();
             }
-            return await _jwt.GenerateJwt(user, cancellationToken);
+            return await _jwt.GenerateJwt(user, JwtPolicies.User, cancellationToken);
         }
 
         public sealed class Validator : AbstractValidator<Command>

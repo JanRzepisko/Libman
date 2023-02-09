@@ -30,4 +30,13 @@ services:
     build:
       context: .
       dockerfile: Library.API/Dockerfile
+      
+  book.api:
+    image: ${DOCKER_REGISTRY-}libraryapi
+    container_name: 'Book.api'
+    ports:
+      - 5003:80
+    build:
+      context: .
+      dockerfile: Library.API/Dockerfile
 
