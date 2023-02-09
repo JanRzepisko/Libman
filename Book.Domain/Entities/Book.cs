@@ -9,5 +9,6 @@ public class Book : Entity
     public Author Author { get; set; }
     public Guid LibraryId { get; set; }
     public Library Library { get; set; }
+    public int ReleaseYear { get; set; }
     public bool IsAvailable { get; set; }
 }
