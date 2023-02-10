@@ -1,17 +1,18 @@
+using System.Data.Entity.Infrastructure;
+using Book.Application.DataContext;
+using Book.Domain.Entities;
 using FluentValidation;
-using Library.Application.DataAccess;
-using Library.Domain.Entities;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Shared.BaseModels.Exceptions;
 using Shared.EventBus;
 using Shared.Messages;
 
-namespace Library.Application.Actions.Users;
+namespace Book.Application.Actions.Book;
 
-public static class ReturnBook
+public static class UpdateBook
 {
-    public sealed record Command(Guid RentalId) : IRequest<Unit>;
+    public sealed record Command(Guid BookId, string? Title, int? ReleaseYear) : IRequest<Unit>;
 
     public class Handler : IRequestHandler<Command, Unit>
     {
@@ -26,29 +27,21 @@ public static class ReturnBook
 
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
-            var rental = await _unitOfWork.Rentals.GetByIdAsync(request.RentalId, cancellationToken);
-            if (rental is null)
+            var book = await _unitOfWork.Books.GetByIdAsync(request.BookId, cancellationToken);
+            if (book is null)
             {
-                throw new EntityNotFound<Rental>();
+                throw new EntityNotFound<Domain.Entities.Book>();
             }
-
-            await _unitOfWork.RentalsHistory.AddAsync(new RentalHistory
-            {
-                UserId = rental.UserId,
-                BookId = rental.BookId,
-                RentalDate = rental.RentalDate,
-                ReturnDate = DateTime.Now
-            }, cancellationToken);
             
-            _unitOfWork.Rentals.Remove(rental);
+            book.Title = request.Title ?? book.Title;
+            book.ReleaseYear = request.ReleaseYear ?? book.ReleaseYear;
+            
             await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-            await _eventBus.PublishAsync(new ChangedBookStatusEvent()
+            await _eventBus.PublishAsync(new BookCreatedEvent()
             {
-                IsAvailable = true,
-                BookId = rental.BookId
+                Id = book.Id,
+                Title = request.Title,
             }, cancellationToken);
-            
             return Unit.Value;
         }
 

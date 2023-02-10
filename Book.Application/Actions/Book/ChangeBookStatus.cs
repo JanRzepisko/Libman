@@ -1,13 +1,13 @@
+using Book.Application.DataContext;
 using FluentValidation;
-using Library.Application.DataAccess;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 
-namespace Library.Application.Actions.Book;
+namespace Book.Application.Actions.Book;
 
-public static class AddBook
+public static class ChangeBookStatus
 {
-    public sealed record Command() : IRequest<Unit>;
+    public sealed record Command(Guid BookId, bool IsAvailable) : IRequest<Unit>;
 
     public class Handler : IRequestHandler<Command, Unit>
     {
@@ -20,6 +20,9 @@ public static class AddBook
 
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
+            var book = await _unitOfWork.Books.GetByIdAsync(request.BookId, cancellationToken);
+            book.IsAvailable = request.IsAvailable;
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }
 

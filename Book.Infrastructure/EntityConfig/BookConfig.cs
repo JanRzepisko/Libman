@@ -15,11 +15,5 @@ internal sealed class BookConfig : IEntityTypeConfiguration<Book.Domain.Entities
             .WithMany(c => c.Books)
             .HasForeignKey(c => c.AuthorId)
             .OnDelete(DeleteBehavior.Cascade);
-        
-        builder.HasOne(c => c.Library)
-            .WithMany(c => c.Books)
-            .HasForeignKey(c => c.LibraryId)
-            .OnDelete(DeleteBehavior.Cascade);
-
-    }
+        }
 }

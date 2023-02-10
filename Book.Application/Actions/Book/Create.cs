@@ -28,13 +28,8 @@ public static class CreateBook
         {
             var author = await _unitOfWork.Authors.GetByIdAsync(request.AuthorId, cancellationToken);
             if (author is null) 
-                throw new EntityNotFound<Author>();
+                throw new EntityNotFound<Domain.Entities.Author>();
 
-            if (!await _unitOfWork.Libraries.ExistsAsync(request.LibraryId, cancellationToken))
-            {
-                throw new EntityNotFound<Library>();
-            }
-            
             Guid bookId = Guid.NewGuid();
             await _unitOfWork.Books.AddAsync(new Domain.Entities.Book()
             {
@@ -51,7 +46,7 @@ public static class CreateBook
             {
                 Id = bookId,
                 Title = request.Title,
-                Author = author.Firsname + " " + author.Surname      ,
+                LibraryId = request.LibraryId,
             }, cancellationToken);
             return Unit.Value;
         }

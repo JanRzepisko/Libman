@@ -5,9 +5,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace Library.Application.Actions.Book;
 
-public static class RemoveBook
+public static class CreateBook
 {
-    public sealed record Command(Guid BookId) : IRequest<Unit>;
+    public sealed record Command(Guid BookId, string Title, Guid LibraryId) : IRequest<Unit>;
 
     public class Handler : IRequestHandler<Command, Unit>
     {
@@ -20,7 +20,14 @@ public static class RemoveBook
 
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
-            _unitOfWork.Books.RemoveById(request.BookId);
+            await _unitOfWork.Books.AddAsync(new Domain.Entities.Book
+            {
+                Id = request.BookId,
+                Title = request.Title,
+                LibraryId = request.LibraryId,
+                IsAvailable = true,
+                RentalId = null
+            }, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }

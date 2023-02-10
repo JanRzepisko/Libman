@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Actions\Authors" />
       <Folder Include="Repository" />
       <Folder Include="Services" />
     </ItemGroup>

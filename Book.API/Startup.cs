@@ -1,5 +1,6 @@
 using System.Net.Mime;
 using Book.Application.DataContext;
+using Book.Application.EventConsumers;
 using Book.Infrastructure.DataContext;
 using MassTransit;
 using Shared;
@@ -34,7 +35,7 @@ public class Startup
         services.AddMassTransit(c =>
         {
             //Add All Consumers
-            c.AddConsumer<ExampleConsumer>();
+            c.AddConsumer<ChangedBookStatusConsumer>();
             
             c.UsingRabbitMq((ctx, cfg) =>
             {

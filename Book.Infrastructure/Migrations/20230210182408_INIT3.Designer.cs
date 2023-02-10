@@ -3,6 +3,7 @@ using System;
 using Book.Infrastructure.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Book.Infrastructure.Migrations
 {
     [DbContext(typeof(BookDataContext))]
-    partial class BookDataContextModelSnapshot : ModelSnapshot
+    [Migration("20230210182408_INIT3")]
+    partial class INIT3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,7 +67,20 @@ namespace Book.Infrastructure.Migrations
 
                     b.HasIndex("AuthorId");
 
+                    b.HasIndex("LibraryId");
+
                     b.ToTable("_Books");
+                });
+
+            modelBuilder.Entity("Book.Domain.Entities.Library", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("_Libraries");
                 });
 
             modelBuilder.Entity("Book.Domain.Entities.Book", b =>
@@ -75,10 +91,23 @@ namespace Book.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Book.Domain.Entities.Library", "Library")
+                        .WithMany("Books")
+                        .HasForeignKey("LibraryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Author");
+
+                    b.Navigation("Library");
                 });
 
             modelBuilder.Entity("Book.Domain.Entities.Author", b =>
+                {
+                    b.Navigation("Books");
+                });
+
+            modelBuilder.Entity("Book.Domain.Entities.Library", b =>
                 {
                     b.Navigation("Books");
                 });

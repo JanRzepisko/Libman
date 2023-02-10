@@ -1,5 +1,6 @@
 using Book.Application.DataContext;
 using Book.Domain.Entities;
+using Book.Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
 using Shared.BaseModels.BaseEntities;
 
@@ -7,13 +8,11 @@ namespace Book.Infrastructure.DataContext;
 
 public class BookDataContext : DbContext, IUnitOfWork
 {
-    DbSet<Domain.Entities.Book> _Books { get; }
-    DbSet<Domain.Entities.Library> _Libraries { get; }
-    DbSet<Domain.Entities.Author> _Authors { get; }
+    private DbSet<Domain.Entities.Book> _Books { get; set; }
+    private DbSet<Author> _Authors { get; set; }
 
     public IBaseRepository<Domain.Entities.Book> Books => new BaseRepository<Domain.Entities.Book>(_Books);
-    public IBaseRepository<Author> Authors => new BaseRepository<Author>(_Authors);
-    public IBaseRepository<Domain.Entities.Library> Libraries => new BaseRepository<Domain.Entities.Library>(_Libraries);
+    public IAuthorRepository Authors => new AuthorRepository(_Authors);
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

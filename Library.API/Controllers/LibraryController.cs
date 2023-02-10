@@ -1,3 +1,4 @@
+using Library.Application.Actions.Book;
 using Library.Application.Actions.Library;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -14,11 +15,17 @@ public class LibraryController : BaseApiController
     public LibraryController(IMediator mediator) : base(mediator){}
     
     [HttpPost]
-    public Task<IActionResult> Endpoint(CreateLibrary.Command request) => base.Endpoint(request);        
+    public Task<IActionResult> Endpoint(CreateLibrary.Command request) => base.Endpoint(request);
+
     [HttpPut]
     public Task<IActionResult> Endpoint(UpdateLibrary.Command request) => base.Endpoint(request);        
     [HttpDelete]
     public Task<IActionResult> Endpoint(RemoveLibrary.Command request) => base.Endpoint(request);        
+    
     [HttpGet]
     public Task<IActionResult> Endpoint(GetById.Query request) => base.Endpoint(request);
+    
+    [AllowAnonymous]
+    [HttpPost("Test")]
+    public Task<IActionResult> Endpoint(CreateBook.Command request) => base.Endpoint(request);    
 }

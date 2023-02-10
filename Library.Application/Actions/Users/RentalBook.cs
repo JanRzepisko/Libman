@@ -45,7 +45,7 @@ public static class RentalBook
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            await _eventBus.PublishAsync(new ChangedBookStatus()
+            await _eventBus.PublishAsync(new ChangedBookStatusEvent()
             {
                 IsAvailable = false,
                 BookId = request.BookId

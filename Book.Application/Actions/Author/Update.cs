@@ -1,38 +1,38 @@
+using System.Data.Entity.Infrastructure;
+using Book.Application.DataContext;
+using Book.Domain.Entities;
 using FluentValidation;
-using Library.Application.DataAccess;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Shared.BaseModels.Exceptions;
+using Shared.EventBus;
+using Shared.Messages;
 
-namespace Library.Application.Actions.Book;
+namespace Book.Application.Actions.Book;
 
-public static class UpdateBook
+public static class UpdateAuthor
 {
-    public sealed record Command(Guid BookId, string Title) : IRequest<Unit>;
+    public sealed record Command(Guid AuthorId, string? Firstname, Guid? Surname) : IRequest<Unit>;
 
     public class Handler : IRequestHandler<Command, Unit>
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public Handler(IUnitOfWork unitOfWork, IConfiguration configuration)
+        public Handler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
-            var book = await _unitOfWork.Books.GetByIdAsync(request.BookId, cancellationToken);
-            if (book is null)
+            var author = await _unitOfWork.Authors.GetByIdAsync(request.AuthorId, cancellationToken);
+            if (author is null)
             {
                 throw new EntityNotFound<Domain.Entities.Book>();
             }
-
-            book.Title = request.Title;
-
+            
             await _unitOfWork.SaveChangesAsync(cancellationToken);
-            {
-                return Unit.Value;
-            }
+            return Unit.Value;
         }
 
         public sealed class Validator : AbstractValidator<Command>

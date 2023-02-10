@@ -24,7 +24,7 @@ public static class RegisterAdmin
 
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
-            if (await _unitOfWork.Users.IsEmailExist(request.Email, cancellationToken))
+            if (await _unitOfWork.Admins.IsEmailExist(request.Email, cancellationToken))
             {
                 throw new EmailExist();
             }

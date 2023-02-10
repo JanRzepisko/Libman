@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Book.Infrastructure.Migrations
 {
     [DbContext(typeof(BookDataContext))]
-    [Migration("20230209200041_INIT")]
-    partial class INIT
+    [Migration("20230210183150_INIT2")]
+    partial class INIT2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,12 +28,9 @@ namespace Book.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("Firsname")
+                    b.Property<string>("Firstname")
                         .IsRequired()
                         .HasColumnType("longtext");
-
-                    b.Property<int>("ReleaseYear")
-                        .HasColumnType("int");
 
                     b.Property<string>("Surname")
                         .IsRequired()
@@ -59,6 +56,9 @@ namespace Book.Infrastructure.Migrations
                     b.Property<Guid>("LibraryId")
                         .HasColumnType("char(36)");
 
+                    b.Property<int>("ReleaseYear")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -80,7 +80,7 @@ namespace Book.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("_Libraries");
+                    b.ToTable("Library");
                 });
 
             modelBuilder.Entity("Book.Domain.Entities.Book", b =>

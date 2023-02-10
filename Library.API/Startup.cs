@@ -32,7 +32,7 @@ public class Startup
             RabbitMQLogin.FromConfiguration(Configuration),
             connectionString,serviceName);
         
-        services.AddMediatR(typeof(UserCreatedConsumer).Assembly);;
+        //services.AddMediatR(typeof(UserCreatedConsumer).Assembly);;
 
         //Configure RabbitMQ
         services.AddMassTransit(c =>
@@ -41,6 +41,9 @@ public class Startup
             c.AddConsumer<ExampleConsumer>();
             c.AddConsumer<UserCreatedConsumer>();
             c.AddConsumer<AdminCreatedConsumer>();
+            c.AddConsumer<CreatedBookConsumer>();
+            c.AddConsumer<UpdatedBookConsumer>();
+            c.AddConsumer<RemovedBookConsumer>();
             
             c.UsingRabbitMq((ctx, cfg) =>
             {
