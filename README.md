@@ -67,11 +67,12 @@ System do zarządzania biblioteką (For Fun). Projekt składa się z 3 mikroserw
 	            }  
 	        }  
 	    }
-```
+
+
 ## Controller 
 - Controller dziedziczy z klasy **BaseApiController** z Shared
 
-
+```csharp
 		using Identity.Application.Actions.Command.User;  
 		using MediatR;  
 		using Microsoft.AspNetCore.Mvc;  
@@ -98,7 +99,7 @@ System do zarządzania biblioteką (For Fun). Projekt składa się z 3 mikroserw
 		    
 		}
 
-
+```
 
 ## Reposiotry
 
