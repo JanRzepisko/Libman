@@ -1,16 +1,23 @@
 
 # Libman
 System do zarządzania biblioteką (For Fun). Projekt składa się z 3 mikroserwisów 
+
+ - Book
+ - Library
+ - 
+
 ## Struktura Projektu 
  - Projekt jest podzielony na Mikro serwisy i projekt Shared
  - Każdy projekt w solucji jest oparty od .NET 7
  - Serwis powinien  składać się z 4 warstw
-	| Warstwa  |  Wyjaśnienie  |  Udostępnione elementy | Typ
-	|--|--|--|--| 
-	| API | Zawiera kontrolery, pliki Program.cs i Strtup.cs, appsettings | Shared, Application, Infrastructure | Interfej API 
-	| Infrastructure | Zawiera DbContext serwisu, pliki migracji, customowe repozytoria dla każdego serwisu | Shared, Application | Biblioteka rozszerzeń NET 7
-	| Application | Zawiera plik IUnitOfWork, Handlery, plik AssemblyEntryPoint.cs | Shared, Domain | Biblioteka rozszerzeń NET 7
-	| Domain | Zwiera Typy , struktury enumy oraz Modele Encji | Shared | Biblioteka rozszerzeń NET 7
+
+
+| Warstwa  |  Wyjaśnienie  |  Udostępnione elementy | Typ
+|--|--|--|--| 
+| API | Zawiera kontrolery, pliki Program.cs i Strtup.cs, appsettings | Shared, Application, Infrastructure | Interfej API 
+| Infrastructure | Zawiera DbContext serwisu, pliki migracji, customowe repozytoria dla każdego serwisu | Shared, Application | Biblioteka rozszerzeń NET 7
+| Application | Zawiera plik IUnitOfWork, Handlery, plik AssemblyEntryPoint.cs | Shared, Domain | Biblioteka rozszerzeń NET 7
+| Domain | Zwiera Typy , struktury enumy oraz Modele Encji | Shared | Biblioteka rozszerzeń NET 7
 
 
 ## Wykorzystane Technologie
@@ -19,13 +26,14 @@ System do zarządzania biblioteką (For Fun). Projekt składa się z 3 mikroserw
 | Mediator | Mediator |
 | Walidacja | FluentValidation |
 | Baza Danych | MySql | 
-| Message Broker | RabbitMQ |
+| Message Broker | RabbitMQ, MassTransit |
 | Data | Entity Framework |
 
 ## Handler
 
 - Przykładowy Handler
-	```csharp
+
+```csharp
         using FluentValidation;  
 	    using Identity.Application.DataAccess;  
 	    using MediatR;  
@@ -67,7 +75,7 @@ System do zarządzania biblioteką (For Fun). Projekt składa się z 3 mikroserw
 	            }  
 	        }  
 	    }
-
+```
 
 ## Controller 
 - Controller dziedziczy z klasy **BaseApiController** z Shared
@@ -101,7 +109,7 @@ System do zarządzania biblioteką (For Fun). Projekt składa się z 3 mikroserw
 
 ```
 
-## Reposiotry
+## Repository
 
 - Interfejs Repozytoriów są deklarowane w warstwie Application a ich implementacje Infrastructure
-- Każde Repozytorium musi dziedziczyć z BaseRepository<TEntity>
+- Każde Repozytorium musi dziedziczyć z `BaseRepository<TEntity>`
