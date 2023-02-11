@@ -1,5 +1,7 @@
 using Library.Application.DataAccess;
+using Library.Application.Repository;
 using Library.Domain.Entities;
+using Library.Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
 using Shared.BaseModels.BaseEntities;
 
@@ -34,9 +36,9 @@ public class LibraryDataContext: DbContext, IUnitOfWork
 
     }   
 
-    public IBaseRepository<Rental> Rentals => new BaseRepository<Rental>(_Rentals);
-    public IBaseRepository<RentalHistory> RentalsHistory => new BaseRepository<RentalHistory>(_RentalsHistory);
-    public IBaseRepository<User> Users => new BaseRepository<User>(_Users);
+    public IRentalRepository Rentals => new RentalRepository(_Rentals);
+    public IRentalHistoryRepository RentalsHistory => new RentalHistoryRepository(_RentalsHistory);
+    public IUserRepository Users => new UserRepository(_Users);
     public IBaseRepository<Admin> Admins => new BaseRepository<Admin>(_Admins);
     public IBaseRepository<Book> Books => new BaseRepository<Book>(_Books);
     public IBaseRepository<Domain.Entities.Library> Libraries => new BaseRepository<Domain.Entities.Library>(_Libraries);

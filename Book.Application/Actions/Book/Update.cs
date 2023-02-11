@@ -37,7 +37,7 @@ public static class UpdateBook
             book.ReleaseYear = request.ReleaseYear ?? book.ReleaseYear;
             
             await _unitOfWork.SaveChangesAsync(cancellationToken);
-            await _eventBus.PublishAsync(new BookCreatedEvent()
+            await _eventBus.PublishAsync(new BookUpdatedEvent()
             {
                 Id = book.Id,
                 Title = request.Title,

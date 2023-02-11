@@ -9,7 +9,7 @@ using Shared.Messages;
 
 namespace Library.Application.Actions.Users;
 
-public static class RentalBook
+public static class RentBook
 {
     public sealed record Command(Guid UserId, Guid BookId) : IRequest<Unit>;
 
@@ -34,6 +34,11 @@ public static class RentalBook
             {
                 throw new EntityNotFound<Domain.Entities.Book>();
             }
+
+            if (!book.IsAvailable)
+            {
+                throw new InvalidRequestException("Book is not available");
+            }
             
             _unitOfWork.Rentals.AddAsync(new Rental()
             {
@@ -43,6 +48,8 @@ public static class RentalBook
                 LibraryId = book.LibraryId
             }, cancellationToken);
 
+            book.IsAvailable = false;
+            
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             await _eventBus.PublishAsync(new ChangedBookStatusEvent()

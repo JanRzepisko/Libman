@@ -5,5 +5,5 @@ namespace Identity.Domain.Entities;
 
 public class Admin : UserModel
 {
-   
+    public string Password { get; set; }
 }

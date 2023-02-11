@@ -32,8 +32,6 @@ public class Startup
             RabbitMQLogin.FromConfiguration(Configuration),
             connectionString,serviceName);
         
-        //services.AddMediatR(typeof(UserCreatedConsumer).Assembly);;
-
         //Configure RabbitMQ
         services.AddMassTransit(c =>
         {
@@ -52,6 +50,7 @@ public class Startup
                     h.Username("libman");
                     h.Password("!Malinka@pass");
                 });
+                
                 cfg.ConfigureEndpoints(ctx);
             });
         });

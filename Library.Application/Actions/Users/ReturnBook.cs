@@ -31,22 +31,25 @@ public static class ReturnBook
             {
                 throw new EntityNotFound<Rental>();
             }
-
+            Guid bookId = rental.BookId;
             await _unitOfWork.RentalsHistory.AddAsync(new RentalHistory
             {
                 UserId = rental.UserId,
                 BookId = rental.BookId,
                 RentalDate = rental.RentalDate,
-                ReturnDate = DateTime.Now
+                ReturnDate = DateTime.Now,
+                LibraryId = rental.LibraryId
             }, cancellationToken);
+
+            var book = await _unitOfWork.Books.GetByIdAsync(bookId, cancellationToken);
+            book.IsAvailable = true;
             
             _unitOfWork.Rentals.Remove(rental);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
-
             await _eventBus.PublishAsync(new ChangedBookStatusEvent()
             {
                 IsAvailable = true,
-                BookId = rental.BookId
+                BookId = bookId
             }, cancellationToken);
             
             return Unit.Value;

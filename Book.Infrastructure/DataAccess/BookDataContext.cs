@@ -11,7 +11,7 @@ public class BookDataContext : DbContext, IUnitOfWork
     private DbSet<Domain.Entities.Book> _Books { get; set; }
     private DbSet<Author> _Authors { get; set; }
 
-    public IBaseRepository<Domain.Entities.Book> Books => new BaseRepository<Domain.Entities.Book>(_Books);
+    public IBookRepository Books => new BookRepository(_Books);
     public IAuthorRepository Authors => new AuthorRepository(_Authors);
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

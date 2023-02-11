@@ -5,7 +5,7 @@ namespace Book.Application.DataContext;
 
 public interface IUnitOfWork
 {
-    IBaseRepository<Domain.Entities.Book> Books { get; }
+    IBookRepository Books { get; }
     IAuthorRepository Authors { get; }
     int SaveChanges();
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);

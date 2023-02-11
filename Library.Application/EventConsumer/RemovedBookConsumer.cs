@@ -5,17 +5,11 @@ using Shared.Messages;
 
 namespace Library.Application.EventConsumer;
 
-public class RemovedBookConsumer : IConsumer<BookUpdatedEvent>
+public class RemovedBookConsumer : IConsumer<BookRemovedEvent>
 {
-    private readonly Mediator _mediator;
-
-    public RemovedBookConsumer(Mediator mediator)
-    {
-        _mediator = mediator;
-    }
-
-    public Task Consume(ConsumeContext<BookUpdatedEvent> context)
-    {
-        return _mediator.Send(new RemoveBook.Command(context.Message.Id));
-    }
+    private readonly IMediator _mediator;
+    public RemovedBookConsumer(IMediator mediator) => _mediator = mediator;
+    
+    public Task Consume(ConsumeContext<BookRemovedEvent> context) => 
+        _mediator.Send(new RemoveBook.Command(context.Message.Id));
 }

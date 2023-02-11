@@ -1,5 +1,4 @@
 using Identity.Application.Actions.Command.User;
-using Identity.Application.Actions.Query.User;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,18 +8,15 @@ using Shared.BaseModels.Jwt;
 namespace Identity.API.Controller;
 
 [ApiController]
+[Authorize(JwtPolicies.Admin)]
 [Route("User")]
 public class UserController : BaseApiController
 {
     public UserController(IMediator mediator) : base(mediator) { }
 
-    [Authorize(JwtPolicies.Admin)]
     [HttpPost("Register")]
-    public Task<IActionResult> Endpoint(RegisterUser.Command request) => base.Endpoint(request);    
-    
-    [HttpPost("Login")]
-    public Task<IActionResult> Endpoint(LoginUser.Command request) => base.Endpoint(request);
-    
+    public Task<IActionResult> Endpoint(CreateUser.Command request) => base.Endpoint(request);
+
     [Authorize]
     [HttpPut]
     public Task<IActionResult> Endpoint(UpdateUser.Command request) => base.Endpoint(request);

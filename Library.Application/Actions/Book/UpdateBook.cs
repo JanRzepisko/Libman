@@ -30,9 +30,7 @@ public static class UpdateBook
             book.Title = request.Title;
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
-            {
-                return Unit.Value;
-            }
+            return Unit.Value;
         }
 
         public sealed class Validator : AbstractValidator<Command>

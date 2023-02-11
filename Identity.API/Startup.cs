@@ -32,13 +32,14 @@ public class Startup
             RabbitMQLogin.FromConfiguration(Configuration),
             connectionString,serviceName);
         
+        
+        
         //Configure RabbitMQ
         services.AddMassTransit(c =>
         {
             //Add All Consumers
             c.AddConsumer<ExampleConsumer>();
             c.AddConsumer<AdminSetLibraryConsumer>();
-            
             c.UsingRabbitMq((ctx, cfg) =>
             {
                 cfg.Host("host.docker.internal", h =>

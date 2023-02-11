@@ -11,7 +11,7 @@ internal sealed class UserConfig : IEntityTypeConfiguration<Domain.Entities.User
         builder.HasIndex(c => c.Id);
         builder.Property(c => c.Id).ValueGeneratedOnAdd();
 
-        builder.HasMany(c => c.ActiveRelant)
+        builder.HasMany(c => c.ActiveRentals)
             .WithOne(c => c.User)
             .HasForeignKey(c => c.UserId)
             .OnDelete(DeleteBehavior.Cascade);

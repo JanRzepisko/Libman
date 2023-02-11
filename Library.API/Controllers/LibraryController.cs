@@ -24,8 +24,4 @@ public class LibraryController : BaseApiController
     
     [HttpGet]
     public Task<IActionResult> Endpoint(GetById.Query request) => base.Endpoint(request);
-    
-    [AllowAnonymous]
-    [HttpPost("Test")]
-    public Task<IActionResult> Endpoint(CreateBook.Command request) => base.Endpoint(request);    
 }

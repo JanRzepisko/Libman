@@ -13,7 +13,7 @@ internal sealed class RentalConfig : IEntityTypeConfiguration<Domain.Entities.Re
         builder.Property(c => c.Id).ValueGeneratedOnAdd();
 
         builder.HasOne(c => c.User)
-            .WithMany(c => c.ActiveRelant)
+            .WithMany(c => c.ActiveRentals)
             .HasForeignKey(c => c.UserId)
             .OnDelete(DeleteBehavior.Cascade);
         

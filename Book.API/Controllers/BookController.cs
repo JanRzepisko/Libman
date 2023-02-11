@@ -20,4 +20,7 @@ public class BookController : BaseApiController
     public Task<IActionResult> Endpoint(UpdateBook.Command request) => base.Endpoint(request);        
     [HttpDelete]
     public Task<IActionResult> Endpoint(RemoveBook.Command request) => base.Endpoint(request);    
+    [HttpGet]
+    public Task<IActionResult> Endpoint(string searchString, int page, Guid LibraryId) => base.Endpoint(new GetBook.Command(searchString, page, LibraryId));    
+    
 }

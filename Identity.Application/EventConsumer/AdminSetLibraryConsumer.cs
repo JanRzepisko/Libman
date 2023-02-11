@@ -1,9 +1,6 @@
 using Identity.Application.Actions.Command.Admin;
-using Identity.Application.Actions.Query.User;
-using Identity.Domain.Entities;
 using MassTransit;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Shared.Messages;
 
 namespace Identity.Application.EventConsumer;

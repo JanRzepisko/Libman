@@ -8,9 +8,9 @@ using Shared.Service.Interfaces;
 
 namespace Identity.Application.Actions.Command.User;
 
-public static class RegisterUser
+public static class CreateUser
 {
-    public sealed record Command(string Firstname, string Surname, string Email, string Password, string ConfirmPassword) : IRequest<Unit>;
+    public sealed record Command(string Firstname, string Surname, string Email) : IRequest<Unit>;
 
     public class Handler : IRequestHandler<Command, Unit>
     {
@@ -41,7 +41,6 @@ public static class RegisterUser
             Guid id = Guid.NewGuid();
             await _unitOfWork.Users.AddAsync(new Domain.Entities.User()
             {
-                Password = BCrypt.Net.BCrypt.HashPassword(request.Password),
                 Email = request.Email,
                 Firstname = request.Firstname,
                 Surname = request.Surname,
@@ -67,7 +66,6 @@ public static class RegisterUser
             {
                 RuleFor(x => x.Surname).NotEmpty();
                 RuleFor(x => x.Email).NotEmpty().EmailAddress();
-                RuleFor(c => c.Password).Equal(c => c.ConfirmPassword);
             }
         }
     }
