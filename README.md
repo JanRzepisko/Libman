@@ -1,6 +1,6 @@
 
 # Libman
-System do zarządzania biblioteką (For Fun)
+System do zarządzania biblioteką (For Fun). Projekt składa się z 3 mikroserwisów 
 ## Struktura Projektu 
  - Projekt jest podzielony na Mikro serwisy i projekt Shared
  - Każdy projekt w solucji jest oparty od .NET 7
@@ -80,23 +80,24 @@ System do zarządzania biblioteką (For Fun)
 		namespace Identity.API.Controller;  
   
 
-	    [Route("User")]  
-	    public class UserController :BaseApiController  
-	    {  
-	        private readonly IMediator _mediator;  
-      
-	        public UserController(IMediator mediator) : base(mediator)  
-	        {  
-	            _mediator = mediator;  
-	        }  
-          
-	        [HttpPost("register")]  
-			  public async Task<IActionResult> Register(RegisterUser.Command command, CancellationToken cancellationToken = default)  
-	        {  
-	            await _mediator.Send(command, cancellationToken);  
-	            return Ok(ApiResponse.Success(200));  
-	        }  
-	    }
+		[Authorize(JwtPolicies.Admin)]
+		[ApiController]
+		[Route("Book")]
+		public class BookController : BaseApiController
+		{
+		    public BookController(IMediator mediator) : base(mediator) { }
+		    
+		    [HttpPost]
+		    public Task<IActionResult> Endpoint(CreateBook.Command request) => base.Endpoint(request);        
+		    [HttpPut]
+		    public Task<IActionResult> Endpoint(UpdateBook.Command request) => base.Endpoint(request);        
+		    [HttpDelete]
+		    public Task<IActionResult> Endpoint(RemoveBook.Command request) => base.Endpoint(request);    
+		    [HttpGet]
+		    public Task<IActionResult> Endpoint(string searchString, int page, Guid LibraryId) => base.Endpoint(new GetBook.Command(searchString, page, LibraryId));    
+		    
+		}
+
 
 
 ## Reposiotry
