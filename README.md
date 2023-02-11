@@ -25,7 +25,7 @@ System do zarządzania biblioteką (For Fun). Projekt składa się z 3 mikroserw
 ## Handler
 
 - Przykładowy Handler
-	
+	```csharp
         using FluentValidation;  
 	    using Identity.Application.DataAccess;  
 	    using MediatR;  
@@ -67,7 +67,7 @@ System do zarządzania biblioteką (For Fun). Projekt składa się z 3 mikroserw
 	            }  
 	        }  
 	    }
-
+```
 ## Controller 
 - Controller dziedziczy z klasy **BaseApiController** z Shared
 
